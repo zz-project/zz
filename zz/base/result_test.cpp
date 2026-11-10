@@ -1,0 +1,94 @@
+/******************************************************************************/
+/*                                                                            */
+/*  Copyright 2026 The ZZ Project                                             */
+/*                                                                            */
+/*  Licensed under the Apache License, Version 2.0 (the "License");           */
+/*  you may not use this file except in compliance with the License.          */
+/*  You may obtain a copy of the License at                                   */
+/*                                                                            */
+/*      http://www.apache.org/licenses/LICENSE-2.0                            */
+/*                                                                            */
+/*  Unless required by applicable law or agreed to in writing, software       */
+/*  distributed under the License is distributed on an "AS IS" BASIS,         */
+/*  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.  */
+/*  See the License for the specific language governing permissions and       */
+/*  limitations under the License.                                            */
+/*                                                                            */
+/******************************************************************************/
+
+#include "zz/base/result.h"
+
+#include <gtest/gtest.h>
+
+#include "zz/base/error.h"
+
+class MovableType {
+ public:
+  explicit MovableType(int a) : a_(a) {}
+
+  MovableType(MovableType&& other) : a_(other.a_) { other.a_ = 0; }
+
+  int GetA() const { return a_; }
+
+ private:
+  int a_;
+};
+
+enum class TestErrorCode : uint16_t {
+  kFileNotFound,
+};
+
+using TestError = zz::Error<TestErrorCode>;
+
+TEST(ResultTest, API) {
+  zz::Result<uint64_t, TestError> success(123);
+  ASSERT_TRUE(static_cast<bool>(success));
+  ASSERT_TRUE(success);
+  ASSERT_TRUE(success.has_value());
+  ASSERT_FALSE(success.is_error());
+  ASSERT_EQ(success.value(), 123);
+
+  zz::Result<uint64_t, TestError> failure{
+      TestError{TestErrorCode::kFileNotFound}};
+  ASSERT_FALSE(static_cast<bool>(failure));
+  ASSERT_FALSE(failure);
+  ASSERT_FALSE(failure.has_value());
+  ASSERT_TRUE(failure.is_error());
+  ASSERT_EQ(failure.error().code(), TestErrorCode::kFileNotFound);
+
+  MovableType mt(321);
+  zz::Result<MovableType, TestError> mt_success(std::move(mt));
+  ASSERT_TRUE(static_cast<bool>(mt_success));
+  ASSERT_TRUE(mt_success);
+  ASSERT_TRUE(mt_success.has_value());
+  ASSERT_FALSE(mt_success.is_error());
+  ASSERT_EQ(mt_success.value().GetA(), 321);
+  // Original object was moved into the result value.
+  ASSERT_EQ(mt.GetA(), 0);
+}
+
+TEST(ResultTest, AnyErrorType) {
+  struct CustomError {
+    int code;
+  };
+
+  zz::Result<int, CustomError> success(7);
+  ASSERT_TRUE(success.has_value());
+  ASSERT_EQ(success.value(), 7);
+
+  zz::Result<int, CustomError> failure(CustomError{42});
+  ASSERT_TRUE(failure.is_error());
+  ASSERT_EQ(failure.error().code, 42);
+}
+
+TEST(BoolResultTest, API) {
+  zz::BoolResult success(true);
+  ASSERT_TRUE(static_cast<bool>(success));
+  ASSERT_TRUE(success);
+
+  const std::string failure_msg = "failed it";
+  zz::BoolResult failure(false, failure_msg);
+  ASSERT_FALSE(static_cast<bool>(failure));
+  ASSERT_FALSE(failure);
+  ASSERT_EQ(failure.message(), failure_msg);
+}
