@@ -18,6 +18,8 @@
 
 #include <gtest/gtest.h>
 
+#include <cstddef>
+#include <cstdint>
 #include <thread>
 
 #include "zz/lockfree/ringbuffer.h"

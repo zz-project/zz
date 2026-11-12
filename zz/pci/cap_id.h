@@ -19,82 +19,84 @@
 #ifndef ZZ_PCI_CAP_ID_H__
 #define ZZ_PCI_CAP_ID_H__
 
+#include <cstddef>
+#include <cstdint>
 #include <string_view>
 
 namespace zz::pci {
 
 enum class CapId : uint8_t {
   /// Null
-  NUL_ID = 0x00,
+  kNull = 0x00,
 
   /// Power Management
-  PM = 0x01,
+  kPowerManagement = 0x01,
 
   /// AGP (Accelerated Graphics Port)
-  AGP = 0x02,
+  kAgp = 0x02,
 
   /// Vital Product Data
-  VPD = 0x03,
+  kVpd = 0x03,
 
   /// Slot ID
-  SLOTID = 0x04,
+  kSlotId = 0x04,
 
   /// Message Signalled Interrupts
-  MSI = 0x05,
+  kMsi = 0x05,
 
   /// Compact Host Swap
-  CHSWP = 0x06,
+  kCompactHostSwap = 0x06,
 
   /// PCI-X
-  PCIX = 0x07,
+  kPciX = 0x07,
 
   /// Hyper Transport
-  HT = 0x08,
+  kHyperTransport = 0x08,
 
   /// Vendor specific
-  VNDR = 0x09,
+  kVendor = 0x09,
 
   /// Debug port
-  DBG = 0x0A,
+  kDebug = 0x0A,
 
   /// Compact Central Resource Control
-  CCRC = 0x0B,
+  kCompactCentralResourceControl = 0x0B,
 
   /// PCI Hot-Plug
-  HOTPLUG = 0x0C,
+  kHotPlug = 0x0C,
 
   /// Subsystem Vendor ID
-  SSVID = 0x0D,
+  kSubsystemVendorId = 0x0D,
 
   /// AGP 8x
-  AGP3 = 0x0E,
+  kAgp3 = 0x0E,
 
   /// Secure
-  SECURE = 0x0F,
+  kSecure = 0x0F,
 
   /// PCI Express
-  EXP = 0x10,
+  kPciExpress = 0x10,
 
   /// MSI-X
-  MSIX = 0x11,
+  kMsiX = 0x11,
 
   /// SATA
-  SATA = 0x12,
+  kSata = 0x12,
 
   /// Advanced Root Complex Features
-  AF = 0x13,
+  kAdvancedRootComplexFeatures = 0x13,
 
   /// Enhanced Allocation
-  EA = 0x14,
+  kEnhancedAllocation = 0x14,
 
-  /// Flattenning Portal Bridge
-  FPB = 0x15,
+  /// Flattening Portal Bridge
+  kFlatteningPortalBridge = 0x15,
 
   /// Used to catch unknown capability IDs.
-  CAP_ID_MAX = 0x16
+  kCapIdMax = 0x16
 };
 
-constexpr const char* CAP_ID_DESCRIPTION[] = {
+constexpr const char* kCapIdDescription[] = {
     "Null",
     "Power Management",
     "AGP (Accelerated Graphics Port)",
@@ -116,77 +118,77 @@ constexpr const char* CAP_ID_DESCRIPTION[] = {
     "SATA",
     "Advanced Root Complex Features",
     "Enhanced Allocation",
-    "Flattenning Portal Bridge",
+    "Flattening Portal Bridge",
 };
 
 constexpr std::string_view GetCapIdDescription(CapId cap_id) {
-  if (cap_id >= CapId::CAP_ID_MAX) {
+  if (cap_id >= CapId::kCapIdMax) {
     return "Unknown Capability ID";
   }
-  return CAP_ID_DESCRIPTION[static_cast<size_t>(cap_id)];
+  return kCapIdDescription[static_cast<size_t>(cap_id)];
 }
 
 enum class ECapId : uint16_t {
-  NULL_ID = 0x00,
-  AER = 0x01,
-  VC = 0x02,
-  DSN = 0x03,
-  PB = 0x04,
-  RCLINK = 0x05,
-  RCILINK = 0x06,
-  RCEC = 0x07,
-  MFVC = 0x08,
-  VC2 = 0x09,
-  RCRB = 0x0a,
-  VNDR = 0x0b,
-  ACS = 0x0d,
-  ARI = 0x0e,
-  ATS = 0x0f,
-  SRIOV = 0x10,
-  MRIOV = 0x11,
-  MCAST = 0x12,
-  PRI = 0x13,
-  REBAR = 0x15,
-  DPA = 0x16,
-  TPH = 0x17,
-  LTR = 0x18,
-  SECPCI = 0x19,
-  PMUX = 0x1a,
-  PASID = 0x1b,
-  LNR = 0x1c,
-  DPC = 0x1d,
-  L1PM = 0x1e,
-  PTM = 0x1f,
-  M_PCIE = 0x20,
-  FRS = 0x21,
-  RTR = 0x22,
-  DVSEC = 0x23,
-  VF_REBAR = 0x24,
-  DLNK = 0x25,
-  PHYSICAL_LAYER_16GT = 0x26,
-  LMR = 0x27,
-  HIER_ID = 0x28,
-  NPEM = 0x29,
-  PHYSICAL_LAYER_32GT = 0x2a,
-  ALT_PROT = 0x2b,
-  SFI = 0x2c,
-  DOE = 0x2e,
-  DEV3 = 0x2f,
-  IDE = 0x30,
-  PHYSICAL_LAYER_64GT = 0x31,
-  FLIT_LOG = 0x32,
-  FLIT_PM = 0x33,
-  FLIT_EI = 0x34,
-  SVC = 0x35,
-  MMIO_RBL = 0x36,
-  NOP_FLIT = 0x37,
-  SIOV = 0x38,
-  PHYSICAL_LAYER_128GT = 0x39,
-  CAPT_D = 0x3a,
-  ECAP_ID_MAX = 0x3b,
+  kNull = 0x00,
+  kAdvancedErrorReporting = 0x01,
+  kVirtualChannel = 0x02,
+  kDeviceSerialNumber = 0x03,
+  kPowerBudgeting = 0x04,
+  kRootComplexLinkDeclaration = 0x05,
+  kRootComplexInternalLinkDeclaration = 0x06,
+  kRootComplexEventCollector = 0x07,
+  kMultiFunctionVirtualChannel = 0x08,
+  kVirtualChannel2 = 0x09,
+  kRootComplexRegisterBlock = 0x0a,
+  kVendor = 0x0b,
+  kAccessControls = 0x0d,
+  kAlternativeRoutingIdInterpretation = 0x0e,
+  kAddressTranslationService = 0x0f,
+  kSingleRootIoVirtualization = 0x10,
+  kMultiRootIoVirtualization = 0x11,
+  kMulticast = 0x12,
+  kPageRequestInterface = 0x13,
+  kResizableBar = 0x15,
+  kDynamicPowerAllocation = 0x16,
+  kTransactionProcessingHints = 0x17,
+  kLatencyToleranceReporting = 0x18,
+  kSecondaryPciExpress = 0x19,
+  kProtocolMultiplexing = 0x1a,
+  kProcessAddressSpaceId = 0x1b,
+  kLnRequester = 0x1c,
+  kDownstreamPortContainment = 0x1d,
+  kL1PmSubstates = 0x1e,
+  kPrecisionTimeMeasurement = 0x1f,
+  kPcieOverMPhy = 0x20,
+  kFrsQueuing = 0x21,
+  kReadinessTimeReporting = 0x22,
+  kDesignatedVendorSpecific = 0x23,
+  kVfResizableBar = 0x24,
+  kDataLinkFeature = 0x25,
+  kPhysicalLayer16Gt = 0x26,
+  kLaneMarginingAtReceiver = 0x27,
+  kHierarchyId = 0x28,
+  kNativePcieEnclosureManagement = 0x29,
+  kPhysicalLayer32Gt = 0x2a,
+  kAlternateProtocol = 0x2b,
+  kSystemFirmwareIntermediary = 0x2c,
+  kDataObjectExchange = 0x2e,
+  kDevice3 = 0x2f,
+  kIntegrityAndDataEncryption = 0x30,
+  kPhysicalLayer64Gt = 0x31,
+  kFlitLogging = 0x32,
+  kFlitPerformanceMeasurement = 0x33,
+  kFlitErrorInjection = 0x34,
+  kStreamlinedVirtualChannel = 0x35,
+  kMmioRegisterBlockLocator = 0x36,
+  kNopFlit = 0x37,
+  kScalableIoVirtualization = 0x38,
+  kPhysicalLayer128Gt = 0x39,
+  kCapturedData = 0x3a,
+  kEcapIdMax = 0x3b,
 };
 
-constexpr const char* EXT_CAP_ID_DESCRIPTION[] = {
+constexpr const char* kExtCapIdDescription[] = {
     "Null Capability",
     "Advanced Error Reporting",
     "Virtual Channel",
@@ -206,7 +208,7 @@ constexpr const char* EXT_CAP_ID_DESCRIPTION[] = {
     "Multi-Root I/O Virtualization",
     "Multicast",
     "Page Request Interface",
-    "Unknown Extented Capability",  // 0x14
+    "Unknown Extended Capability",  // 0x14
     "Resizable BAR",
     "Dynamic Power Allocation",
     "Transaction Processing Hints",
@@ -231,7 +233,7 @@ constexpr const char* EXT_CAP_ID_DESCRIPTION[] = {
     "Physical Layer 32.0 GT/s",
     "Alternate Protocol",
     "System Firmware Intermediary",
-    "Uknown Extended Capability",  // 0x2d
+    "Unknown Extended Capability",  // 0x2d
     "Data Object Exchange",
     "Device 3",
     "Integrity and Data Encryption",
@@ -248,10 +250,10 @@ constexpr const char* EXT_CAP_ID_DESCRIPTION[] = {
 };
 
 constexpr std::string_view GetECapIdDescription(ECapId ecap_id) {
-  if (ecap_id >= ECapId::ECAP_ID_MAX) {
+  if (ecap_id >= ECapId::kEcapIdMax) {
     return "Unknown Capability ID";
   }
-  return EXT_CAP_ID_DESCRIPTION[static_cast<size_t>(ecap_id)];
+  return kExtCapIdDescription[static_cast<size_t>(ecap_id)];
 }
 
 }  // namespace zz::pci

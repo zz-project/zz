@@ -20,7 +20,9 @@
 
 #include <gtest/gtest.h>
 
+#include <cstddef>
 #include <string>
+#include <utility>
 
 TEST(RingBufferTest, Construct) {
   zz::lockfree::RingBuffer<int, 8> rb;

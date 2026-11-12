@@ -19,33 +19,35 @@
 #ifndef ZZ_PCI_CLASS_CODE_H__
 #define ZZ_PCI_CLASS_CODE_H__
 
+#include <cstddef>
+#include <cstdint>
 #include <string_view>
 
 namespace zz::pci {
 
 enum class ClassCode : uint8_t {
-  UNCLASSIFIED_DEVICE = 0x00,
-  MASS_STORAGE_CONTROLLER = 0x01,
-  NETWORK_CONTROLLER = 0x02,
-  DISPLAY_CONTROLLER = 0x03,
-  MULTIMEDIA_CONTROLLER = 0x04,
-  MEMORY_CONTROLLER = 0x05,
-  BRIDGE = 0x06,
-  COMMUNICATION_CONTROLLER = 0x07,
-  GENERIC_SYSTEM_PERIPHERAL = 0x08,
-  INPUT_DEVICE_CONTROLLER = 0x09,
-  DOCKING_STATION = 0x0A,
-  PROCESSOR = 0x0B,
-  SERIAL_BUS_CONTROLLER = 0x0C,
-  WIRELESS_CONTROLLER = 0x0D,
-  INTELLIGENT_CONTROLLER = 0x0E,
-  SATELLITE_COMMUNICATIONS_CONTROLLER = 0x0F,
-  ENCRYPTION_CONTROLLER = 0x10,
-  SIGNAL_PROCESSING_CONTROLLER = 0x11,
-  PROCESSING_ACCELERATORS = 0x12,
-  NON_ESSENTIAL_INSTRUMENTATION = 0x13,
-  COPROCESSOR = 0x40,
-  UNASSIGNED_CLASS = 0xFF,
+  kUnclassifiedDevice = 0x00,
+  kMassStorageController = 0x01,
+  kNetworkController = 0x02,
+  kDisplayController = 0x03,
+  kMultimediaController = 0x04,
+  kMemoryController = 0x05,
+  kBridge = 0x06,
+  kCommunicationController = 0x07,
+  kGenericSystemPeripheral = 0x08,
+  kInputDeviceController = 0x09,
+  kDockingStation = 0x0A,
+  kProcessor = 0x0B,
+  kSerialBusController = 0x0C,
+  kWirelessController = 0x0D,
+  kIntelligentController = 0x0E,
+  kSatelliteCommunicationsController = 0x0F,
+  kEncryptionController = 0x10,
+  kSignalProcessingController = 0x11,
+  kProcessingAccelerators = 0x12,
+  kNonEssentialInstrumentation = 0x13,
+  kCoprocessor = 0x40,
+  kUnassignedClass = 0xFF,
 };
 
 struct ClassCodeAndDescription {
@@ -53,34 +55,34 @@ struct ClassCodeAndDescription {
   const char* description;
 };
 
-constexpr ClassCodeAndDescription CLASS_CODE_DESCRIPTION[] = {
-    {ClassCode::UNCLASSIFIED_DEVICE, "Unclassified Device"},
-    {ClassCode::MASS_STORAGE_CONTROLLER, "Mass Storage Controller"},
-    {ClassCode::NETWORK_CONTROLLER, "Network Controller"},
-    {ClassCode::DISPLAY_CONTROLLER, "Display Controller"},
-    {ClassCode::MULTIMEDIA_CONTROLLER, "Multimedia Controller"},
-    {ClassCode::MEMORY_CONTROLLER, "Memory Controller"},
-    {ClassCode::BRIDGE, "Bridge"},
-    {ClassCode::COMMUNICATION_CONTROLLER, "Communication Controller"},
-    {ClassCode::GENERIC_SYSTEM_PERIPHERAL, "Generic System Peripheral"},
-    {ClassCode::INPUT_DEVICE_CONTROLLER, "Input Device Controller"},
-    {ClassCode::DOCKING_STATION, "Docking Station"},
-    {ClassCode::PROCESSOR, "Processor"},
-    {ClassCode::SERIAL_BUS_CONTROLLER, "Serial Bus Controller"},
-    {ClassCode::WIRELESS_CONTROLLER, "Wireless Controller"},
-    {ClassCode::INTELLIGENT_CONTROLLER, "Intelligent Controller"},
-    {ClassCode::SATELLITE_COMMUNICATIONS_CONTROLLER,
+constexpr ClassCodeAndDescription kClassCodeDescription[] = {
+    {ClassCode::kUnclassifiedDevice, "Unclassified Device"},
+    {ClassCode::kMassStorageController, "Mass Storage Controller"},
+    {ClassCode::kNetworkController, "Network Controller"},
+    {ClassCode::kDisplayController, "Display Controller"},
+    {ClassCode::kMultimediaController, "Multimedia Controller"},
+    {ClassCode::kMemoryController, "Memory Controller"},
+    {ClassCode::kBridge, "Bridge"},
+    {ClassCode::kCommunicationController, "Communication Controller"},
+    {ClassCode::kGenericSystemPeripheral, "Generic System Peripheral"},
+    {ClassCode::kInputDeviceController, "Input Device Controller"},
+    {ClassCode::kDockingStation, "Docking Station"},
+    {ClassCode::kProcessor, "Processor"},
+    {ClassCode::kSerialBusController, "Serial Bus Controller"},
+    {ClassCode::kWirelessController, "Wireless Controller"},
+    {ClassCode::kIntelligentController, "Intelligent Controller"},
+    {ClassCode::kSatelliteCommunicationsController,
      "Satellite Communications Controller"},
-    {ClassCode::ENCRYPTION_CONTROLLER, "Encryption Controller"},
-    {ClassCode::SIGNAL_PROCESSING_CONTROLLER, "Signal Processing Controller"},
-    {ClassCode::PROCESSING_ACCELERATORS, "Processing Accelerators"},
-    {ClassCode::NON_ESSENTIAL_INSTRUMENTATION, "Non-essential Instrumentation"},
-    {ClassCode::COPROCESSOR, "Coprocessor"},
-    {ClassCode::UNASSIGNED_CLASS, "Unassigned Class"},
+    {ClassCode::kEncryptionController, "Encryption Controller"},
+    {ClassCode::kSignalProcessingController, "Signal Processing Controller"},
+    {ClassCode::kProcessingAccelerators, "Processing Accelerators"},
+    {ClassCode::kNonEssentialInstrumentation, "Non-essential Instrumentation"},
+    {ClassCode::kCoprocessor, "Coprocessor"},
+    {ClassCode::kUnassignedClass, "Unassigned Class"},
 };
 
 constexpr std::string_view GetClassCodeDescription(ClassCode code) {
-  for (auto& code_and_description : CLASS_CODE_DESCRIPTION) {
+  for (auto& code_and_description : kClassCodeDescription) {
     if (code_and_description.code == code) {
       return code_and_description.description;
     }

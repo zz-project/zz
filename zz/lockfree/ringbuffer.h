@@ -22,7 +22,9 @@
 #include <array>
 #include <atomic>
 #include <cstddef>  // For size_t
+#include <new>
 #include <type_traits>
+#include <utility>
 
 namespace zz::lockfree {
 

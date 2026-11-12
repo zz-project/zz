@@ -16,7 +16,7 @@
 /*                                                                            */
 /******************************************************************************/
 
-#include <iomanip>
+#include <cstdint>
 #include <iostream>
 #include <span>
 

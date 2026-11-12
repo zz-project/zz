@@ -19,6 +19,7 @@
 #ifndef ZZ_PCI_PCI_H__
 #define ZZ_PCI_PCI_H__
 
+#include <cstdint>
 #include <memory>
 #include <optional>
 #include <span>
