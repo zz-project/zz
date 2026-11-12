@@ -1,0 +1,19 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_test")
+
+cc_library(
+    name = "mapped_file",
+    srcs = ["mapped_file.cpp"],
+    hdrs = ["mapped_file.h"],
+    deps = ["//zz/base:base"],
+    visibility = ["//visibility:public"],
+)
+
+cc_test(
+    name = "mapped_file_test",
+    srcs = ["mapped_file_test.cpp"],
+    deps = [
+        ":mapped_file",
+        "@googletest//:gtest",
+        "@googletest//:gtest_main",
+    ],
+)
