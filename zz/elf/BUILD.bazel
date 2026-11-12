@@ -1,0 +1,27 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "elf_hdrs",
+    hdrs = [
+        "elf.h",
+        "result.h",
+    ],
+    deps = [
+        "//zz/base",
+        "//zz/file:mapped_file",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "elf",
+    srcs = [
+        "elf.cpp",
+    ],
+    deps = [
+        ":elf_hdrs",
+        "//zz/base",
+        "//zz/file:mapped_file",
+    ],
+    visibility = ["//visibility:public"],
+)
