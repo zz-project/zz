@@ -18,23 +18,22 @@
 
 #include "zz/file/mapped_file.h"
 
-#include <cstddef>
-#include <cstdint>
-#include <cstdlib>
-#include <cstring>
 #include <errno.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
 
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
 #include <filesystem>
 #include <system_error>
 
-namespace zz {
+namespace zz::file {
 
-MappedFile::~MappedFile() { UnMap(); }
+MappedFile::~MappedFile() { Unmap(); }
 
-void MappedFile::UnMap() {
+void MappedFile::Unmap() {
   if (data_ == nullptr) {
     return;
   }
@@ -80,4 +79,4 @@ Result<MappedFile, std::string> MappedFile::Load(
   return MappedFile(reinterpret_cast<uint8_t*>(res), size);
 }
 
-}  // namespace zz
+}  // namespace zz::file

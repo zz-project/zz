@@ -16,8 +16,9 @@
 /*                                                                            */
 /******************************************************************************/
 
-#include <iomanip>
+#include <cstdint>
 #include <iostream>
+#include <span>
 
 #include "zz/pci/cap_id.h"
 #include "zz/pci/pci.h"

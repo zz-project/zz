@@ -19,6 +19,8 @@
 #include <benchmark/registration.h>
 #include <benchmark/state.h>
 
+#include <cstddef>
+#include <cstdint>
 #include <thread>
 
 #include "zz/lockfree/ringbuffer.h"

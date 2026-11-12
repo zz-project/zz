@@ -31,7 +31,7 @@
 #include <type_traits>
 #include <utility>
 
-namespace zz {
+namespace zz::file {
 namespace {
 
 static_assert(!std::is_copy_constructible_v<MappedFile>);
@@ -173,4 +173,4 @@ TEST_F(MappedFileTest, SelfMoveAssignmentIsNoOp) {
 }
 
 }  // namespace
-}  // namespace zz
+}  // namespace zz::file

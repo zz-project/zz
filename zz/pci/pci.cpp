@@ -18,6 +18,8 @@
 
 #include "zz/pci/pci.h"
 
+#include <cstddef>
+#include <cstdint>
 #include <filesystem>
 #include <fstream>
 #include <iomanip>
@@ -26,7 +28,7 @@
 #include <span>
 #include <sstream>
 #include <string>
-#include <string_view>
+#include <utility>
 
 #include "zz/pci/cap_id.h"
 #include "zz/pci/class_code.h"
@@ -36,22 +38,22 @@ namespace {
 
 // Byte offsets of the different fields in the config header.
 enum class ConfigByteOffset : uint16_t {
-  VENDOR_ID = 0,
-  DEVICE_ID = 2,
-  COMMAND = 4,
-  STATUS = 6,
-  REVISION = 8,
-  PROGRAM_IF = 9,
-  SUBCLASS = 10,
-  CLASS_CODE = 11,
-  HEADER_TYPE = 14,
-  CAPABILITIES_POINTER = 0x34,
-  EXTENDED_CAPABILITIES = 0x100,
+  kVendorId = 0,
+  kDeviceId = 2,
+  kCommand = 4,
+  kStatus = 6,
+  kRevision = 8,
+  kProgramIf = 9,
+  kSubclass = 10,
+  kClassCode = 11,
+  kHeaderType = 14,
+  kCapabilitiesPointer = 0x34,
+  kExtendedCapabilities = 0x100,
 };
 
 // The mask to get the bit which indicates the presence of capabilities
 // list in the device config.
-constexpr uint16_t STATUS_CAPABILITIES_MASK = 0x10;
+constexpr uint16_t kStatusCapabilitiesMask = 0x10;
 
 std::string GetBdfString(uint32_t domain, uint8_t bus, uint8_t device,
                          uint8_t func) {
@@ -161,19 +163,19 @@ Result<std::unique_ptr<Device>> Device::Load(uint32_t domain, uint8_t bus,
   config.close();
 
   pci_device->vendor_id_ = *reinterpret_cast<uint16_t*>(
-      config_data + static_cast<int>(ConfigByteOffset::VENDOR_ID));
+      config_data + static_cast<int>(ConfigByteOffset::kVendorId));
   pci_device->device_id_ = *reinterpret_cast<uint16_t*>(
-      config_data + static_cast<int>(ConfigByteOffset::DEVICE_ID));
+      config_data + static_cast<int>(ConfigByteOffset::kDeviceId));
   pci_device->status_ = *reinterpret_cast<uint16_t*>(
-      config_data + static_cast<int>(ConfigByteOffset::STATUS));
+      config_data + static_cast<int>(ConfigByteOffset::kStatus));
   pci_device->revision_ = *reinterpret_cast<uint8_t*>(
-      config_data + static_cast<int>(ConfigByteOffset::REVISION));
+      config_data + static_cast<int>(ConfigByteOffset::kRevision));
   pci_device->program_if_ = *reinterpret_cast<uint8_t*>(
-      config_data + static_cast<int>(ConfigByteOffset::PROGRAM_IF));
+      config_data + static_cast<int>(ConfigByteOffset::kProgramIf));
   pci_device->subclass_ = *reinterpret_cast<uint8_t*>(
-      config_data + static_cast<int>(ConfigByteOffset::SUBCLASS));
+      config_data + static_cast<int>(ConfigByteOffset::kSubclass));
   pci_device->class_code_ = static_cast<ClassCode>(*reinterpret_cast<uint8_t*>(
-      config_data + static_cast<int>(ConfigByteOffset::CLASS_CODE)));
+      config_data + static_cast<int>(ConfigByteOffset::kClassCode)));
 
   return pci_device;
 }
@@ -183,7 +185,7 @@ std::string Device::GetBdfString() const {
 }
 
 bool Device::HasCapabilitiesList() const {
-  return (STATUS_CAPABILITIES_MASK & status_) != 0;
+  return (kStatusCapabilitiesMask & status_) != 0;
 }
 
 Result<std::vector<Capability>> Device::GetCapabilities() const {
@@ -194,7 +196,7 @@ Result<std::vector<Capability>> Device::GetCapabilities() const {
                  "Error opening config file " + config_path.native()};
   }
 
-  config.seekg(int(ConfigByteOffset::CAPABILITIES_POINTER));
+  config.seekg(static_cast<int>(ConfigByteOffset::kCapabilitiesPointer));
   if (config.fail()) {
     return Error{
         ErrorCode::kErrorReadingConfigFile,
@@ -269,7 +271,7 @@ Result<std::vector<ExtendedCapability>> Device::GetExtendedCapabilities()
   }
 
   uint16_t next_pointer =
-      static_cast<uint16_t>(ConfigByteOffset::EXTENDED_CAPABILITIES);
+      static_cast<uint16_t>(ConfigByteOffset::kExtendedCapabilities);
   std::vector<ExtendedCapability> capabilities;
   while (next_pointer != 0) {
     config.seekg(next_pointer);
@@ -337,7 +339,7 @@ std::optional<Error> Device::ReadExtendedCapabilityData(
   }
 
   uint16_t next_pointer =
-      static_cast<uint16_t>(ConfigByteOffset::EXTENDED_CAPABILITIES);
+      static_cast<uint16_t>(ConfigByteOffset::kExtendedCapabilities);
   while (next_pointer != 0) {
     config.seekg(next_pointer);
     if (config.fail()) {

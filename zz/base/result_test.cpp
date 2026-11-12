@@ -20,6 +20,10 @@
 
 #include <gtest/gtest.h>
 
+#include <cstdint>
+#include <string>
+#include <utility>
+
 #include "zz/base/error.h"
 
 class MovableType {

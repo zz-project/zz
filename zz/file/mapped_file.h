@@ -21,14 +21,13 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <cstdlib>
 #include <filesystem>
 #include <span>
 #include <string>
 
 #include "zz/base/result.h"
 
-namespace zz {
+namespace zz::file {
 
 class MappedFile {
  public:
@@ -41,7 +40,7 @@ class MappedFile {
       return;
     }
 
-    UnMap();
+    Unmap();
     data_ = other.data_;
     size_ = other.size_;
 
@@ -56,7 +55,7 @@ class MappedFile {
       return *this;
     }
 
-    UnMap();
+    Unmap();
     data_ = rhs.data_;
     size_ = rhs.size_;
 
@@ -76,19 +75,17 @@ class MappedFile {
     return std::span<const uint8_t>(data_, size_);
   }
 
-  std::span<uint8_t> data() {
-    return std::span<uint8_t>(data_, size_);
-  }
+  std::span<uint8_t> data() { return std::span<uint8_t>(data_, size_); }
 
  private:
   MappedFile(uint8_t* data, size_t size) : data_(data), size_(size) {}
 
-  void UnMap();
+  void Unmap();
 
   uint8_t* data_ = nullptr;
   size_t size_ = 0;
 };
 
-}  // namespace zz
+}  // namespace zz::file
 
 #endif  // ZZ_FILE_MAPPED_FILE_H__

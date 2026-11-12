@@ -18,11 +18,13 @@
 
 #include <gtest/gtest.h>
 
+#include <cstddef>
+#include <cstdint>
 #include <thread>
 
 #include "zz/lockfree/ringbuffer.h"
 
-TEST(RingBufferTsanTest, CorrectnessTest) {
+TEST(RingBufferLargeFunctionalTest, CorrectnessTest) {
   const size_t count = 1000000000ULL;
   zz::lockfree::RingBuffer<uint64_t, 128> rb;
 

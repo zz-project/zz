@@ -16,7 +16,9 @@
 /*                                                                            */
 /******************************************************************************/
 
+#include <cstdint>
 #include <iostream>
+#include <utility>
 
 #include "zz/pci/cap_id.h"
 #include "zz/pci/class_code.h"
@@ -45,7 +47,7 @@ int main(int argc, char* argv[]) {
             << "  Device ID: 0x" << device->device_id() << '\n'
             << " Class Code: 0x" << static_cast<uint32_t>(class_code) << " - "
             << zz::pci::GetClassCodeDescription(class_code) << '\n'
-            << "   Subclass: 0x" << int(device->subclass()) << '\n'
+            << "   Subclass: 0x" << static_cast<int>(device->subclass()) << '\n'
             << "Capabilities List: "
             << (device->HasCapabilitiesList() ? "Yes" : "No") << '\n';
 
