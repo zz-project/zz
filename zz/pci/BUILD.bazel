@@ -1,0 +1,24 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "pci_hdrs",
+    hdrs = [
+        "pci.h",
+        "cap_id.h",
+        "class_code.h",
+        "result.h",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_library(
+    name = "pci",
+    srcs = [
+        "pci.cpp",
+    ],
+    deps = [
+        ":pci_hdrs",
+        "//zz/base",
+    ],
+    visibility = ["//visibility:public"],
+)
